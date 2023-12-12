@@ -1,0 +1,32 @@
+{
+    "model" : "vinai/bertweet-base",
+    "max_length":128,
+    "checkpoint_filename" : "./checkpoints/[TAG]BERTweet-base_CREHate_checkpoint.pth.tar",
+    "best_filename" : "./checkpoints/[TAG]BERTweet-base_CREHate_best.pth.tar",
+    "additional_tokens" : ["[US]","[AU]","[GB]","[ZA]","[SG]","@USER","URL"],
+    "remove_special_tokens" :true,
+
+    "train_data" : "./data_splits/CREHate_train_tagged.csv",
+    "val_data" : "./data_splits/CREHate_valid_tagged.csv",
+    "test_data" : "./data_splits/CREHate_test_tagged_res.csv",
+    "test_res" : "./data_splits/CREHate_test_tagged_res.csv",
+
+    "sent_col" : "Text" ,
+    "label_col" : "hate_label" ,
+    "num_labels" : 2,
+
+    "test_col" : "Text", 
+    "test_res_col" : "BERTweet-CREHate",
+    
+
+    "batch_size" : 32 ,
+    "num_workers" : 4,
+    "distributed":true,
+
+   "train" : true,
+    "evaluate" : true,
+    "test" : true,
+
+    "resume" : false,
+    "resume_model" : ""
+}
