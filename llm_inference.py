@@ -35,7 +35,7 @@ def raw2prediction(x, hn_or_nh):
     
     if raw.startswith('b') and 'b\n' in raw:
         return choices[choice2idx['b']]
-#     "I'd say that's a Hate", "It's not a Hate"
+
     if 'post is not hate' in raw.lower() or "it's non-hate" in raw.lower() or 'is not hate' in raw.lower() or "it's not hate" in raw.lower() or "it's not a hate" in raw.lower() or "don't think this is hate" in raw.lower() or "is not a hate" in raw.lower() or "would not call it hate" in raw.lower() or "would not consider it as a hate" in raw.lower():
         return 'Non-hate'
     
@@ -53,18 +53,15 @@ def raw2prediction(x, hn_or_nh):
     
     if 'answer:' in raw:
         raw = re.sub('[\s\S]+answer:\s','', raw)
-        # print(raw)
     
     if 'Answer:' in raw:
         raw = re.sub('[\s\S]+Answer:\s','', raw)
-        # print(raw)
         
     if 'can be classified as ' in raw:
         raw = re.sub('[\s\S]+can be classified as ','', raw)
         
     if 'can be categorized as ' in raw:
         raw = re.sub('[\s\S]+can be categorized as ','', raw)
-        # print(raw)
         
     if 'is classified as ' in raw:
         raw = re.sub('[\s\S]+is classified as ','', raw) 
@@ -325,19 +322,10 @@ additional_data = pd.read_csv(PATH_TO_CP_DATA,index_col=False)
 
 
 models_to_eval = [
-    'meta-llama/Llama-2-7b-hf',
-    'meta-llama/Llama-2-7b-chat-hf',
-    'meta-llama/Llama-2-13b-chat-hf',
-    'meta-llama/Llama-2-70b-hf',
-    'gpt-3.5-turbo',
-    'gpt-3.5-turbo-instruct',
-    'gpt-3.5-turbo-1106',
     'gpt-4-1106-preview',
-    'google/flan-t5-small','google/flan-t5-base','google/flan-t5-large',
-    'google/flan-t5-xl',
+    'gpt-3.5-turbo-1106',
     'google/flan-t5-xxl',
     'facebook/opt-iml-30b'
-    "microsoft/Orca-2-13b",
     'microsoft/Orca-2-7b',
     ]
 
@@ -362,11 +350,14 @@ for model_name in models_to_eval:
                                                             resume_download=True,
                                                             cache_dir=f'.cache/{model_name}',use_auth_token=HUGGINGFACE_TOKEN)
         
-    else:
+    elif 'gpt' in model_name or 'claude' in model_name:
+        tokenizer, model = None, None
+
+    else: 
         tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False)
         model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto", 
                                                             resume_download=True,
-                                                            cache_dir=f'.cache/{model_name}') 
+                                                            cache_dir=f'.cache/{model_name}')
     
     def model_infer(persona=False,country=None,simple=False,definition=True,prompt_num=None):
         with open(output_path, 'w', encoding='utf-8') as f:
@@ -463,7 +454,8 @@ for model_name in models_to_eval:
                     print("open failed")
                     continue
             print(f"[{model_name}]\tUS: {hit_us / evaluated_num:.4f}\tAU: {hit_au / evaluated_num:.4f}\tUK: {hit_uk / evaluated_num:.4f}\tSA: {hit_sa / evaluated_num:.4f}\tSG: {hit_sg / evaluated_num:.4f}")
-
+            # The values presented within the paper is calculated excluding the OOC, but this value printed out includes the OOC samples as failed samples. 
+            # Therefore, the values printed out is not the same as the values written in the paper.
     
    
     num2label = ['Non-hate', 'Hate']
