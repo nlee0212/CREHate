@@ -14,6 +14,6 @@ Qualitative analysis shows that label disagreement occurs mostly due to differen
 Lastly, we evaluate large language models (LLMs) on CREHate under a zero-shot setting and show that some models tend to show higher label similarities with Anglosphere countries.
 
 ## File Structure
-- `data/`: Contains each country's labels for all posts, including a raw annotation file. Separate files for CC-SBIC and CP posts only are also included.
+- `data/`: Contains each country's labels for all posts, including a raw annotation file. Separate files for CC-SBIC and CP posts only are also included, and the file containing keywords we gained from the hateful keyword collection survey is also included.
 - `finetune/`: Contains codes and training data splits for finetuning BERT-variants (Appendix F)
 - `llm_inference.py`: Codes used for LLM inference. OpenAI key is needed for inference in GPT models.
