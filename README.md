@@ -1,6 +1,6 @@
 # CREHate
 
-Repository for the CREHate dataset, presented in the paper "[Exploring Cross-cultural Differences in English Hate Speech Annotations: From Dataset Construction to Analysis](https://arxiv.org/abs/2308.16705)". (NAACL 2024)
+Repository for the CREHate dataset, presented in the paper "[Exploring Cross-cultural Differences in English Hate Speech Annotations: From Dataset Construction to Analysis](https://arxiv.org/abs/2308.16705)". (NAACL 2024, Best Resource Awards)
 
 🤗 Our dataset is uploaded on [HuggingFace](https://huggingface.co/datasets/nayeon212/CREHate)!
 
